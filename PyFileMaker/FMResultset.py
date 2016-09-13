@@ -1,8 +1,8 @@
 # PyFileMaker - Integrating FileMaker and Python
 # (c) 2014-2016 Marcin Kawa, kawa.macin@gmail.com
-# (c) 2006-2008 Klokan Petr Pridal, klokan@klokan.cz 
+# (c) 2006-2008 Klokan Petr Pridal, klokan@klokan.cz
 # (c) 2002-2006 Pieter Claerhout, pieter@yellowduck.be
-# 
+#
 # http://code.google.com/p/pyfilemaker/
 # http://www.yellowduck.be/filemaker/
 
@@ -106,9 +106,12 @@ class FMResultset(FMXML.FMXML):
 
 					subrecordDict['RECORDID'] = int(self.doGetXMLAttribute(subrecord, 'record-id'))
 					subrecordDict['MODID'] = int(self.doGetXMLAttribute(subrecord, 'mod-id'))
-				   
+
 					done = False
 					for rec in recordDict[subnodename]:
+						if isinstance(rec, unicode):
+							done = True
+							continue
 						if rec['RECORDID'] == subrecordDict['RECORDID']:
 							#rec.update(subrecordDict)
 							for sub in subrecordDict:
@@ -130,27 +133,27 @@ class FMResultset(FMXML.FMXML):
 
 		if xml == 0:
 			print 'Errorcode:', self.errorcode
-			print 
-			
+			print
+
 			print 'Product information:'
 			for key in self.product.keys():
 				print '	 ', key.encode('UTF-8'),
 				print '->', self.product[key].encode('UTF-8')
 			print
-			
+
 			print 'Database information:'
 			for key in self.database.keys():
 				print '	 ', key.encode('UTF-8'),
 				print'->', self.database[key].encode('UTF-8')
 			print
-			
+
 			print 'Metadata:'
 			for field in self.metadata.keys():
 				print
 				print '	  ', field.encode('UTF-8')
 				for property in self.metadata[field]:
 					print '		  ', property.encode('UTF-8'),
-					print '->', self.metadata[field][property].encode('UTF-8') 
+					print '->', self.metadata[field][property].encode('UTF-8')
 			print
 
 			print 'Records:'
